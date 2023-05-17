@@ -89,8 +89,12 @@ public class BagGraph {
      *
      * @return the number of vertices in this graph
      */
-    public int getVertexCount() {
-        return vertexCount;
+    public int getVertexCount() { return vertexCount; }
+
+    // throw an IllegalArgumentException unless {@code 0 <= v < V}
+    private void validateVertex(int v) {
+        if (v < 0 || v >= vertexCount)
+            throw new IllegalArgumentException("vertex " + v + " is not between 0 and " + (vertexCount-1));
     }
  
     /**
@@ -159,12 +163,6 @@ public class BagGraph {
         }
         s.append("}");
         return s.toString();
-    }
-
-    // throw an IllegalArgumentException unless {@code 0 <= v < V}
-    private void validateVertex(int v) {
-        if (v < 0 || v >= vertexCount)
-            throw new IllegalArgumentException("vertex " + v + " is not between 0 and " + (vertexCount-1));
     }
 }
  
