@@ -71,11 +71,11 @@ public class BagGraph {
             int west  = i-1;
 
             // but not all vertexes have adjacents, so we have to figure out which adjacent vertexes the current vertex has
-            // and add only those which are valid to the adjacency list
-            boolean validSouth = i < (vertexCount-columns);
-            boolean validNorth = i > columns;
-            boolean validEast =  i % columns != 0;
-            boolean validWest =  i % lines != 0;
+            // and add only those which are valid to the adjacency list (also discard '*' vertexes, which are not valid)
+            boolean validSouth = (i < (vertexCount-columns)) && (codeToChar.get(south) != '*');
+            boolean validNorth = (i > columns)               && (codeToChar.get(north) != '*');
+            boolean validEast =  (i % columns != 0)          && (codeToChar.get(east) != '*');
+            boolean validWest =  (i % lines != 0)            && (codeToChar.get(west) != '*');
             if (validSouth)  adj[i].add(south);
             if (validNorth)  adj[i].add(north);
             if (validEast)   adj[i].add(east);
