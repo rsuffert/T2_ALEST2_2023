@@ -4,6 +4,8 @@ import datastructures.Bag;
 
 /**
  * This class implements the breadth-first search algorithm for a graph implemented with an adjacency matrix.
+ * @author Ricardo Süffert
+ * @author Edson Moreno
  */
 public class BreadthFirstSearch {
     private boolean[] marked;
