@@ -60,6 +60,8 @@ public class BagGraph {
             }
         }
 
+        reader.close();
+
         // adding the adjacencies to the graph
         for (int i=0; i<vertexCount; i++) { // for each vertex in the bag array
             // theoretically, the four vertexes adjacent to the vertex in the bag array could be found as follows
@@ -93,7 +95,13 @@ public class BagGraph {
      * @param portNumber the number of the port
      * @return the integer value associated with the {@code portNumber} parametes, or {@code null} if the port is not in the graph
      */
-    public Integer translatePortToCode(char portNumber) { return portToCode.get(portNumber); }
+    public Integer translatePortToCode(int portNumber) { return portToCode.get((char) portNumber); }
+
+    /**
+     * Tells how many ports there are in the map
+     * @return the number of ports in the map
+     */
+    public int getPortsCount() { return portToCode.size(); }
  
     /**
      * Returns the number of vertices in this graph.
