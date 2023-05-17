@@ -23,6 +23,7 @@ public class BagGraph {
     private final int vertexCount;
     private Bag<Integer>[] adj; // adj[i] contains a list of all the vertexes that are adjacent to i
     private Map<Integer, Character> codeToChar; // maps the integer vertex to its actual character value
+    private Map<Character, Integer> portToCode; // maps the port code (1-9) to its code in the datastructure
      
     /**
      * CONSTRUCTOR
@@ -53,6 +54,9 @@ public class BagGraph {
             for (String vertex : lineData) { // for each vertex in the line
                 int vertexCode = sequencer++;
                 codeToChar.put(vertexCode, vertex.charAt(0)); // map the vertex to an integer value
+                if (Character.isDigit(vertex.charAt(0))) { // if the vertex is a port (digit)
+                    portToCode.put(vertex.charAt(0), vertexCode); // map its actual value to its code in the datastructure
+                } 
             }
         }
 
@@ -83,6 +87,13 @@ public class BagGraph {
      * @return the character associated with {@code code}
      */
     public Character translateVertexCode(int code) { return codeToChar.get(code); }
+
+    /**
+     * Translates a given port number to its respective code in the graph datastructure
+     * @param portNumber the number of the port
+     * @return the integer value associated with the {@code portNumber} parametes, or {@code null} if the port is not in the graph
+     */
+    public Integer translatePortToCode(char portNumber) { return portToCode.get(portNumber); }
  
     /**
      * Returns the number of vertices in this graph.
