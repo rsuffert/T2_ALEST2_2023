@@ -8,6 +8,8 @@ import javax.swing.JOptionPane;
  * @author Ricardo Süffert
  */
 public class App {
+    public static int lastPortVisited;
+
     public static void main(String[] args) {
         // get the path to the file that contains the map
         String mapPath = JOptionPane.showInputDialog(null, "Digite o caminho para o arquivo do mapa:", 
@@ -22,9 +24,16 @@ public class App {
                                           "Erro de I/O!", JOptionPane.ERROR_MESSAGE);
         }
 
+        if (mapGraph.getPortsCount() == 0) {
+            JOptionPane.showMessageDialog(null, "NÃO HÁ PORTOS NO MAPA!", 
+                                          "O mapa de entrada não possui nenhum porto.\nO programa será encerrado.", 
+                                          JOptionPane.ERROR_MESSAGE);
+            System.exit(1);
+        }
+
         // find out the distances from the first to the last port and from the last to the first port
-        int firstToLastDistance = travelToLastPort(mapGraph);
-        int lastToFirstDistance = travelToFirstPort(mapGraph);
+        int firstToLastDistance = mapGraph.getPortsCount() >= 2? travelToLastPort(mapGraph)  : 0;
+        int lastToFirstDistance = mapGraph.getPortsCount() >= 2? returnToFirstPort(mapGraph) : 0;
 
         // the total fuel necessary will be equal to firstToLastDistance + lastToFirstDistance, since each movement consumes 1 unit of fuel
         int totalFuel = firstToLastDistance + lastToFirstDistance;
@@ -36,41 +45,49 @@ public class App {
     }
 
     /**
-     * Tells the distance from the first port in the map to the last port in the map
+     * Tells the distance from the first port in the map to the last port in the map, visiting all ports that are accessible
      * @param mapGraph the graph
      * @return the distance from the first port to the last port in the graph
      */
     public static int travelToLastPort(BagGraph mapGraph) {
         int distance = 0;
 
-        for (int i=0; i<mapGraph.getPortsCount(); i++) { // for each port in the map
-            int originPortCode = mapGraph.translatePortToCode(i);
-            int destinationPortCode = mapGraph.translatePortToCode(i+1);
-
+        int originPortIdx = 0;
+        int destinationPortIdx = 1;
+        while (destinationPortIdx < mapGraph.getPortsCount()-1) { // while we haven't got to the last port yet
+            int originPortCode = mapGraph.translatePortToCode(originPortIdx);
+            int destinationPortCode = mapGraph.translatePortToCode(destinationPortIdx);
             BreadthFirstSearch bfs = new BreadthFirstSearch(mapGraph, originPortCode);
-            if (bfs.hasPathTo(destinationPortCode)) { // if there is a path from this port to the next
-                distance += bfs.distanceTo(destinationPortCode); // travel to that port
+            if (bfs.hasPathTo(destinationPortCode)) { // if there's a path to the destination
+                // "visit it", i.e.:
+                distance += bfs.distanceTo(destinationPortCode);
+                originPortIdx = destinationPortIdx;
+                destinationPortIdx++;
             }
-            else { // skip the next port
-
-            }
+            else destinationPortIdx++; // if the destination cannot be accessed, skip it
         }
+
+        lastPortVisited = originPortIdx;
 
         return distance;
     }
 
     /**
-     * Tells the distance from the last port in the map to the last port in the map
+     * Tells the distance from the last port in the map to the first port in the map
      * @param mapGraph the graph
      * @return the distance from the last port to the first port in the graph
      */
-    public static int travelToFirstPort(BagGraph mapGraph) {
-        int distance = 0;
+    public static Integer returnToFirstPort(BagGraph mapGraph) {
+        int firstPortIdx = 0;
+        int lastPortIdx = lastPortVisited;
 
-        for (int i=mapGraph.getPortsCount(); i>=0; i--) {
+        int firstPortCode = mapGraph.translatePortToCode(firstPortIdx);
+        int lastPortCode = mapGraph.translatePortToCode(lastPortIdx);
 
-        }
+        BreadthFirstSearch bfs = new BreadthFirstSearch(mapGraph, lastPortCode);
 
-        return distance;
+        if (!bfs.hasPathTo(firstPortCode)) return null; // cannot return
+
+        return bfs.distanceTo(firstPortCode);
     }
 }

@@ -95,7 +95,10 @@ public class BagGraph {
      * @param portNumber the number of the port
      * @return the integer value associated with the {@code portNumber} parametes, or {@code null} if the port is not in the graph
      */
-    public Integer translatePortToCode(int portNumber) { return portToCode.get((char) portNumber); }
+    public Integer translatePortToCode(int portNumber) { 
+        char characterPortNumber = Character.forDigit(portNumber, 10);
+        return portToCode.get(characterPortNumber); 
+    }
 
     /**
      * Tells how many ports there are in the map
