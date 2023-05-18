@@ -20,7 +20,7 @@ import datastructures.Bag;
 public class BagGraph {
     private static final String NEWLINE = System.getProperty("line.separator");
 
-    private final int vertexCount;
+    private final int VERTEX_COUNT;
     private Bag<Integer>[] adj; // adj[i] contains a list of all the vertexes that are adjacent to i
     private Map<Integer, Character> codeToChar; // maps the integer vertex to its actual character value
     private Map<Character, Integer> portToCode; // maps the port code (1-9) to its code in the datastructure
@@ -41,11 +41,11 @@ public class BagGraph {
         String[] linesColumns = line.split(" ");
         int lines = Integer.parseInt(linesColumns[0]);
         int columns = Integer.parseInt(linesColumns[1]);
-        this.vertexCount = lines * columns;
+        this.VERTEX_COUNT = lines * columns;
 
         // initializing stuff
-        this.adj        = new Bag[vertexCount];
-        this.codeToChar = new HashMap<>(vertexCount);
+        this.adj        = new Bag[VERTEX_COUNT];
+        this.codeToChar = new HashMap<>(VERTEX_COUNT);
         this.portToCode = new HashMap<>();
 
         // mapping the nodes of the graph (code -> char value)
@@ -64,9 +64,9 @@ public class BagGraph {
         reader.close();
 
         // adding the adjacencies to the graph
-        final int FIRST_IN_LAST_ROW   = vertexCount-columns;
+        final int FIRST_IN_LAST_ROW   = VERTEX_COUNT-columns;
         final int FIRST_IN_SECOND_ROW = columns;
-        for (int v=0; v<vertexCount; v++) { // for each vertex in the bag array
+        for (int v=0; v<VERTEX_COUNT; v++) { // for each vertex in the bag array
             adj[v] = new Bag<>();
             // theoretically, the four vertexes adjacent to the vertex in the bag array could be found as follows
             int south = v+columns;
@@ -119,12 +119,12 @@ public class BagGraph {
      *
      * @return the number of vertices in this graph
      */
-    public int getVertexCount() { return vertexCount; }
+    public int getVertexCount() { return VERTEX_COUNT; }
 
     // throw an IllegalArgumentException unless {@code 0 <= v < V}
     private void validateVertex(int v) {
-        if (v < 0 || v >= vertexCount)
-            throw new IllegalArgumentException("vertex " + v + " is not between 0 and " + (vertexCount-1));
+        if (v < 0 || v >= VERTEX_COUNT)
+            throw new IllegalArgumentException("vertex " + v + " is not between 0 and " + (VERTEX_COUNT-1));
     }
  
     /**
@@ -159,8 +159,8 @@ public class BagGraph {
      */
     public String toString() {
         StringBuilder s = new StringBuilder();
-        s.append(vertexCount + " vertices" + NEWLINE);
-        for (int v = 0; v < vertexCount; v++) {
+        s.append(VERTEX_COUNT + " vertices" + NEWLINE);
+        for (int v = 0; v < VERTEX_COUNT; v++) {
             s.append(v + ": ");
             for (int w : adj[v]) {
                 s.append(w + " ");
@@ -182,7 +182,7 @@ public class BagGraph {
         s.append("graph {"+NEWLINE);
         s.append("rankdir = LR;"+NEWLINE);
         s.append("node [shape = circle];"+NEWLINE);
-        for (int v = 0; v < vertexCount; v++) {
+        for (int v = 0; v < VERTEX_COUNT; v++) {
             for (int w : adj[v]) {
                 String edge = Math.min(v,w)+"-"+Math.max(v, w);
                 if(!edges.contains(edge)) {

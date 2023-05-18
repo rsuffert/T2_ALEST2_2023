@@ -1,5 +1,7 @@
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.text.NumberFormat;
+import java.util.Locale;
 import javax.swing.JOptionPane;
 
 /**
@@ -9,6 +11,7 @@ import javax.swing.JOptionPane;
  */
 public class App {
     public static int lastPortVisited;
+    public static final String SUPPORTED_EXTENSION = ".map";
 
     public static void main(String[] args) {
         // get the path to the file that contains the map
@@ -18,17 +21,28 @@ public class App {
         // create a graph that contains the information about the map
         BagGraph mapGraph = null;
         try {
+            String fileExtension = mapPath.substring(mapPath.lastIndexOf("."));
+            if (!fileExtension.equals(SUPPORTED_EXTENSION)) throw new Exception("A extensão do arquivo de entrada não é suportada");
             mapGraph = new BagGraph(Paths.get(mapPath));
+        } catch (NullPointerException e) {
+            JOptionPane.showMessageDialog(null, " Como você não informou nenhum caminho, o programa será encerrado.",
+                                          "ARQUIVO NÃO INFORMADO!", JOptionPane.ERROR_MESSAGE);
+            System.exit(-1);
         } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, "Não foi possível ler o arquivo de entrada!\nO programa será abortado.", 
-                                          "Erro de I/O!", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Não foi possível ler o arquivo de entrada!\nO programa será encerrado.", 
+                                          "ERRO DE I/O!", JOptionPane.ERROR_MESSAGE);
+            System.exit(-2);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, String.format("%s.\nO programa será encerrado.", e.getMessage()), 
+                                          "ERRO!", JOptionPane.ERROR_MESSAGE);
+            System.exit(-3);
         }
 
         if (mapGraph.getPortsCount() == 0) {
-            JOptionPane.showMessageDialog(null, "NÃO HÁ PORTOS NO MAPA!", 
-                                          "O mapa de entrada não possui nenhum porto.\nO programa será encerrado.", 
+            JOptionPane.showMessageDialog(null, "O mapa de entrada não possui nenhum porto.\nO programa será encerrado.",
+                                          "NÃO HÁ PORTOS NO MAPA!", 
                                           JOptionPane.ERROR_MESSAGE);
-            System.exit(1);
+            System.exit(-4);
         }
 
         // find out the distances from the first to the last port and from the last to the first port
@@ -38,9 +52,13 @@ public class App {
         // the total fuel necessary will be equal to firstToLastDistance + lastToFirstDistance, since each movement consumes 1 unit of fuel
         int totalFuel = firstToLastDistance + lastToFirstDistance;
 
+        // printing the result using the Brazilian standard for separators
+        Locale locale = new Locale.Builder().setLanguage("pt").setRegion("BR").build();
+        NumberFormat nf = NumberFormat.getNumberInstance(locale);
         JOptionPane.showMessageDialog(null, 
-                                      String.format("Para viajar do porto 0 ao %c, serão necessários %dL de combustível.", 
-                                                                                    mapGraph.getPortsCount()-1, totalFuel), 
+                                      String.format("Para viajar do porto 0 ao %s, serão necessários %sL de combustível.", 
+                                                                                    nf.format(mapGraph.getPortsCount()-1), 
+                                                                                    nf.format(totalFuel)), 
                                       "RESULTADO", JOptionPane.INFORMATION_MESSAGE);
     }
 
@@ -54,7 +72,7 @@ public class App {
 
         int originPortIdx      = 0;
         int destinationPortIdx = 1;
-        while (destinationPortIdx < mapGraph.getPortsCount()-1) { // while we haven't got to the last port yet
+        while (destinationPortIdx < mapGraph.getPortsCount()) { // while we haven't got to the last port yet
             int originPortCode      = mapGraph.translatePortToCode(originPortIdx);
             int destinationPortCode = mapGraph.translatePortToCode(destinationPortIdx);
             BreadthFirstSearch bfs  = new BreadthFirstSearch(mapGraph, originPortCode);
