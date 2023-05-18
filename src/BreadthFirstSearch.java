@@ -17,7 +17,7 @@ public class BreadthFirstSearch {
      * @param g base graph
      * @param s reference vertex
      */
-    public BreadthFirstSearch(BagGraph g, int s) {
+    public BreadthFirstSearch(Graph g, int s) {
         this.marked = new boolean[g.getVertexCount()];
         this.edgeTo = new int[g.getVertexCount()];
         this.distTo = new int[g.getVertexCount()];
@@ -30,7 +30,7 @@ public class BreadthFirstSearch {
      * @param G base graph
      * @param s reference vertex
      */
-    private void bfs (BagGraph g, int s) {
+    private void bfs (Graph g, int s) {
         Queue<Integer> q = new LinkedList<>();
 
         q.add(s);

@@ -21,11 +21,11 @@ public class App {
                                                "Qual o arquivo do mapa?", JOptionPane.INFORMATION_MESSAGE);
         
         // create a graph that contains the information about the map
-        BagGraph mapGraph = null;
+        Graph mapGraph = null;
         try {
             if (mapPath == null) throw new InvalidPathException("mapPath", "O caminho para o mapa não pode ser nulo");
             mapPath = mapPath.trim();
-            mapGraph = new BagGraph(Paths.get(mapPath));
+            mapGraph = new Graph(Paths.get(mapPath));
         } catch (InvalidPathException e) {
             JOptionPane.showMessageDialog(null, String.format("%s.%sO programa será encerrado.", e.getReason(), NEWLINE), 
                                           "ERRO!", JOptionPane.ERROR_MESSAGE);
@@ -65,7 +65,7 @@ public class App {
      * @param mapGraph the graph
      * @return the distance from the first port to the last port in the graph
      */
-    public static int travelToLastPort(BagGraph mapGraph) {
+    public static int travelToLastPort(Graph mapGraph) {
         int distance = 0;
 
         int originPortIdx      = 1;
@@ -93,7 +93,7 @@ public class App {
      * @param mapGraph the graph
      * @return the distance from the last port to the first port in the graph
      */
-    public static Integer returnToFirstPort(BagGraph mapGraph) {
+    public static Integer returnToFirstPort(Graph mapGraph) {
         int firstPortIdx = 1;
         int lastPortIdx  = lastPortVisited;
 

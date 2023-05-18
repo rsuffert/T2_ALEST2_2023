@@ -17,7 +17,7 @@ import datastructures.Bag;
  * @author Robert Sedgewick
  * @author Kevin Wayne
  */
-public class BagGraph {
+public class Graph {
     private static final String NEWLINE = System.getProperty("line.separator");
 
     private final int VERTEX_COUNT;
@@ -31,7 +31,7 @@ public class BagGraph {
      * @throws IOException if the file could not be read
      */
     @SuppressWarnings("all")
-    public BagGraph(Path p) throws IOException {
+    public Graph(Path p) throws IOException {
         BufferedReader reader = Files.newBufferedReader(p, Charset.forName("utf8"));
 
         String line;
