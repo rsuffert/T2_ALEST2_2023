@@ -12,6 +12,7 @@ import javax.swing.JOptionPane;
 public class App {
     public static int lastPortVisited;
     public static final String SUPPORTED_EXTENSION = ".map";
+    private static final String NEWLINE = System.getProperty("line.separator");
 
     public static void main(String[] args) {
         // get the path to the file that contains the map
@@ -29,17 +30,17 @@ public class App {
                                           "ARQUIVO NÃO INFORMADO!", JOptionPane.ERROR_MESSAGE);
             System.exit(-1);
         } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, "Não foi possível ler o arquivo de entrada!\nO programa será encerrado.", 
+            JOptionPane.showMessageDialog(null, String.format("Não foi possível ler o arquivo de entrada!%sO programa será encerrado.", NEWLINE), 
                                           "ERRO DE I/O!", JOptionPane.ERROR_MESSAGE);
             System.exit(-2);
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, String.format("%s.\nO programa será encerrado.", e.getMessage()), 
+            JOptionPane.showMessageDialog(null, String.format("%s.%sO programa será encerrado.", e.getMessage(), NEWLINE), 
                                           "ERRO!", JOptionPane.ERROR_MESSAGE);
             System.exit(-3);
         }
 
         if (mapGraph.getPortsCount() == 0) {
-            JOptionPane.showMessageDialog(null, "O mapa de entrada não possui nenhum porto.\nO programa será encerrado.",
+            JOptionPane.showMessageDialog(null, String.format("O mapa de entrada não possui nenhum porto.%sO programa será encerrado.", NEWLINE),
                                           "NÃO HÁ PORTOS NO MAPA!", 
                                           JOptionPane.ERROR_MESSAGE);
             System.exit(-4);
