@@ -20,7 +20,7 @@ public class App {
         try {
             mapGraph = new BagGraph(Paths.get(mapPath));
         } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, "Não foi possível ler o arquivo de entrada!\nO programa será abortado", 
+            JOptionPane.showMessageDialog(null, "Não foi possível ler o arquivo de entrada!\nO programa será abortado.", 
                                           "Erro de I/O!", JOptionPane.ERROR_MESSAGE);
         }
 

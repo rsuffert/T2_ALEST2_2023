@@ -46,6 +46,7 @@ public class BagGraph {
         // initializing stuff
         this.adj = new Bag[vertexCount];
         this.codeToChar = new HashMap<>(vertexCount);
+        this.portToCode = new HashMap<>();
 
         // mapping the nodes of the graph (code -> char value)
         int sequencer = 0;
@@ -63,23 +64,28 @@ public class BagGraph {
         reader.close();
 
         // adding the adjacencies to the graph
-        for (int i=0; i<vertexCount; i++) { // for each vertex in the bag array
+        for (int v=0; v<vertexCount; v++) { // for each vertex in the bag array
+            adj[v] = new Bag<>();
             // theoretically, the four vertexes adjacent to the vertex in the bag array could be found as follows
-            int south = i+lines;
-            int north = i-lines;
-            int east  = i+1;
-            int west  = i-1;
+            int south = v+columns;
+            int north = v-columns;
+            int east  = v+1;
+            int west  = v-1;
 
             // but not all vertexes have adjacents, so we have to figure out which adjacent vertexes the current vertex has
             // and add only those which are valid to the adjacency list (also discard '*' vertexes, which are not valid)
-            boolean validSouth = (i < (vertexCount-columns)) && (codeToChar.get(south) != '*');
-            boolean validNorth = (i > columns)               && (codeToChar.get(north) != '*');
-            boolean validEast =  (i % columns != 0)          && (codeToChar.get(east) != '*');
-            boolean validWest =  (i % lines != 0)            && (codeToChar.get(west) != '*');
-            if (validSouth)  adj[i].add(south);
-            if (validNorth)  adj[i].add(north);
-            if (validEast)   adj[i].add(east);
-            if (validWest)   adj[i].add(west);
+            int currentRow = v / columns;
+            int firstInNextRow = currentRow * columns + columns;
+            int firstInCurrentRow = firstInNextRow - columns;
+            boolean validSouth = (v < (vertexCount-columns)) && (codeToChar.get(south) != '*');
+            boolean validNorth = (v >= columns)              && (codeToChar.get(north) != '*');
+            boolean validEast =  (v < firstInNextRow-1)      && (codeToChar.get(east) != '*');
+            boolean validWest =  (v > firstInCurrentRow)     && (codeToChar.get(west) != '*');
+
+            if (validSouth)  adj[v].add(south);
+            if (validNorth)  adj[v].add(north);
+            if (validEast)   adj[v].add(east);
+            if (validWest)   adj[v].add(west);
         }
     }
 
