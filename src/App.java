@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.nio.file.InvalidPathException;
 import java.nio.file.Paths;
 import java.text.NumberFormat;
 import java.util.Locale;
@@ -22,28 +23,24 @@ public class App {
         // create a graph that contains the information about the map
         BagGraph mapGraph = null;
         try {
-            String fileExtension = mapPath.substring(mapPath.lastIndexOf("."));
-            if (!fileExtension.equals(SUPPORTED_EXTENSION)) throw new Exception("A extensão do arquivo de entrada não é suportada");
+            if (mapPath == null) throw new InvalidPathException("mapPath", "O caminho para o mapa não pode ser nulo");
+            mapPath = mapPath.trim();
             mapGraph = new BagGraph(Paths.get(mapPath));
-        } catch (NullPointerException e) {
-            JOptionPane.showMessageDialog(null, " Como você não informou nenhum caminho, o programa será encerrado.",
-                                          "ARQUIVO NÃO INFORMADO!", JOptionPane.ERROR_MESSAGE);
+        } catch (InvalidPathException e) {
+            JOptionPane.showMessageDialog(null, String.format("%s.%sO programa será encerrado.", e.getReason(), NEWLINE), 
+                                          "ERRO!", JOptionPane.ERROR_MESSAGE);
             System.exit(-1);
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, String.format("Não foi possível ler o arquivo de entrada!%sO programa será encerrado.", NEWLINE), 
                                           "ERRO DE I/O!", JOptionPane.ERROR_MESSAGE);
             System.exit(-2);
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, String.format("%s.%sO programa será encerrado.", e.getMessage(), NEWLINE), 
-                                          "ERRO!", JOptionPane.ERROR_MESSAGE);
-            System.exit(-3);
         }
 
         if (mapGraph.getPortsCount() == 0) {
             JOptionPane.showMessageDialog(null, String.format("O mapa de entrada não possui nenhum porto.%sO programa será encerrado.", NEWLINE),
                                           "NÃO HÁ PORTOS NO MAPA!", 
                                           JOptionPane.ERROR_MESSAGE);
-            System.exit(-4);
+            System.exit(-3);
         }
 
         // find out the distances from the first to the last port and from the last to the first port
