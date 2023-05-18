@@ -54,8 +54,8 @@ public class App {
         Locale locale = new Locale.Builder().setLanguage("pt").setRegion("BR").build();
         NumberFormat nf = NumberFormat.getNumberInstance(locale);
         JOptionPane.showMessageDialog(null, 
-                                      String.format("Para viajar do porto 0 ao %s, serão necessários %sL de combustível.", 
-                                                                                    nf.format(mapGraph.getPortsCount()-1), 
+                                      String.format("Para viajar do porto 1 ao %s, serão necessários %sL de combustível.", 
+                                                                                    nf.format(mapGraph.getPortsCount()), 
                                                                                     nf.format(totalFuel)), 
                                       "RESULTADO", JOptionPane.INFORMATION_MESSAGE);
     }
@@ -68,9 +68,9 @@ public class App {
     public static int travelToLastPort(BagGraph mapGraph) {
         int distance = 0;
 
-        int originPortIdx      = 0;
-        int destinationPortIdx = 1;
-        while (destinationPortIdx < mapGraph.getPortsCount()) { // while we haven't got to the last port yet
+        int originPortIdx      = 1;
+        int destinationPortIdx = 2;
+        while (destinationPortIdx <= mapGraph.getPortsCount()) { // while we haven't got to the last port yet
             int originPortCode      = mapGraph.translatePortToCode(originPortIdx);
             int destinationPortCode = mapGraph.translatePortToCode(destinationPortIdx);
             BreadthFirstSearch bfs  = new BreadthFirstSearch(mapGraph, originPortCode);
@@ -94,7 +94,7 @@ public class App {
      * @return the distance from the last port to the first port in the graph
      */
     public static Integer returnToFirstPort(BagGraph mapGraph) {
-        int firstPortIdx = 0;
+        int firstPortIdx = 1;
         int lastPortIdx  = lastPortVisited;
 
         int firstPortCode = mapGraph.translatePortToCode(firstPortIdx);

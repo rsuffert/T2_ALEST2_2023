@@ -51,12 +51,12 @@ public class BagGraph {
         // mapping the nodes of the graph (code -> char value)
         int sequencer = 0;
         while ((line = reader.readLine()) != null) { // for each line of input file
-            String[] lineData = line.split(" ");
-            for (String vertex : lineData) { // for each vertex in the line
+            char[] lineData = splitLine(line);
+            for (char vertex : lineData) { // for each vertex in the line
                 int vertexCode = sequencer++;
-                codeToChar.put(vertexCode, vertex.charAt(0)); // map the vertex to an integer value
-                if (Character.isDigit(vertex.charAt(0))) { // if the vertex is a port (digit)
-                    portToCode.put(vertex.charAt(0), vertexCode); // map its actual value to its code in the datastructure
+                codeToChar.put(vertexCode, vertex); // map the vertex to an integer value
+                if (Character.isDigit(vertex)) { // if the vertex is a port (digit)
+                    portToCode.put(vertex, vertexCode); // map its actual value to its code in the datastructure
                 } 
             }
         }
@@ -79,16 +79,26 @@ public class BagGraph {
             int currentRow        = v / columns;
             int firstInNextRow    = currentRow * columns + columns;
             int firstInCurrentRow = firstInNextRow - columns;
-            boolean validSouth = (v < FIRST_IN_LAST_ROW)       && (codeToChar.get(south) != '*');
-            boolean validNorth = (v >= FIRST_IN_SECOND_ROW)    && (codeToChar.get(north) != '*');
-            boolean validEast  =  (v < firstInNextRow-1)       && (codeToChar.get(east) != '*');
-            boolean validWest  =  (v > firstInCurrentRow)      && (codeToChar.get(west) != '*');
+            boolean validSouth = (v < FIRST_IN_LAST_ROW)    && (codeToChar.get(south) != '*');
+            boolean validNorth = (v >= FIRST_IN_SECOND_ROW) && (codeToChar.get(north) != '*');
+            boolean validEast  = (v < firstInNextRow-1)     && (codeToChar.get(east) != '*');
+            boolean validWest  = (v > firstInCurrentRow)    && (codeToChar.get(west) != '*');
 
             if (validSouth)  adj[v].add(south);
             if (validNorth)  adj[v].add(north);
             if (validEast)   adj[v].add(east);
             if (validWest)   adj[v].add(west);
         }
+    }
+
+    private char[] splitLine (String line) {
+        char[] lineSplit = new char[line.length()];
+
+        for (int i=0; i<line.length(); i++) {
+            lineSplit[i] = line.charAt(i);
+        }
+
+        return lineSplit;
     }
 
     /**
