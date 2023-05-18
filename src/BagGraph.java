@@ -91,6 +91,11 @@ public class BagGraph {
         }
     }
 
+    /**
+     * Splits a given string (i.e., breaks it into its {@code char} values).
+     * @param line the line to be split
+     * @return a {@code char} array, containing all {@code char} elements in the string.
+     */
     private char[] splitLine (String line) {
         char[] lineSplit = new char[line.length()];
 
