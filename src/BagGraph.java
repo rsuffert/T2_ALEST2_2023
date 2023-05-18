@@ -64,6 +64,8 @@ public class BagGraph {
         reader.close();
 
         // adding the adjacencies to the graph
+        final int FIRST_IN_LAST_ROW = vertexCount-columns;
+        final int FIRST_IN_SECOND_ROW = columns;
         for (int v=0; v<vertexCount; v++) { // for each vertex in the bag array
             adj[v] = new Bag<>();
             // theoretically, the four vertexes adjacent to the vertex in the bag array could be found as follows
@@ -77,10 +79,10 @@ public class BagGraph {
             int currentRow = v / columns;
             int firstInNextRow = currentRow * columns + columns;
             int firstInCurrentRow = firstInNextRow - columns;
-            boolean validSouth = (v < (vertexCount-columns)) && (codeToChar.get(south) != '*');
-            boolean validNorth = (v >= columns)              && (codeToChar.get(north) != '*');
-            boolean validEast =  (v < firstInNextRow-1)      && (codeToChar.get(east) != '*');
-            boolean validWest =  (v > firstInCurrentRow)     && (codeToChar.get(west) != '*');
+            boolean validSouth = (v < FIRST_IN_LAST_ROW)    && (codeToChar.get(south) != '*');
+            boolean validNorth = (v >= FIRST_IN_SECOND_ROW)   && (codeToChar.get(north) != '*');
+            boolean validEast =  (v < firstInNextRow-1)  && (codeToChar.get(east) != '*');
+            boolean validWest =  (v > firstInCurrentRow) && (codeToChar.get(west) != '*');
 
             if (validSouth)  adj[v].add(south);
             if (validNorth)  adj[v].add(north);
