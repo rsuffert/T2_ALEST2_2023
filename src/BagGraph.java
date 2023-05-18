@@ -44,7 +44,7 @@ public class BagGraph {
         this.vertexCount = lines * columns;
 
         // initializing stuff
-        this.adj = new Bag[vertexCount];
+        this.adj        = new Bag[vertexCount];
         this.codeToChar = new HashMap<>(vertexCount);
         this.portToCode = new HashMap<>();
 
@@ -64,7 +64,7 @@ public class BagGraph {
         reader.close();
 
         // adding the adjacencies to the graph
-        final int FIRST_IN_LAST_ROW = vertexCount-columns;
+        final int FIRST_IN_LAST_ROW   = vertexCount-columns;
         final int FIRST_IN_SECOND_ROW = columns;
         for (int v=0; v<vertexCount; v++) { // for each vertex in the bag array
             adj[v] = new Bag<>();
@@ -76,13 +76,13 @@ public class BagGraph {
 
             // but not all vertexes have adjacents, so we have to figure out which adjacent vertexes the current vertex has
             // and add only those which are valid to the adjacency list (also discard '*' vertexes, which are not valid)
-            int currentRow = v / columns;
-            int firstInNextRow = currentRow * columns + columns;
+            int currentRow        = v / columns;
+            int firstInNextRow    = currentRow * columns + columns;
             int firstInCurrentRow = firstInNextRow - columns;
-            boolean validSouth = (v < FIRST_IN_LAST_ROW)    && (codeToChar.get(south) != '*');
-            boolean validNorth = (v >= FIRST_IN_SECOND_ROW)   && (codeToChar.get(north) != '*');
-            boolean validEast =  (v < firstInNextRow-1)  && (codeToChar.get(east) != '*');
-            boolean validWest =  (v > firstInCurrentRow) && (codeToChar.get(west) != '*');
+            boolean validSouth = (v < FIRST_IN_LAST_ROW)       && (codeToChar.get(south) != '*');
+            boolean validNorth = (v >= FIRST_IN_SECOND_ROW)    && (codeToChar.get(north) != '*');
+            boolean validEast  =  (v < firstInNextRow-1)       && (codeToChar.get(east) != '*');
+            boolean validWest  =  (v > firstInCurrentRow)      && (codeToChar.get(west) != '*');
 
             if (validSouth)  adj[v].add(south);
             if (validNorth)  adj[v].add(north);

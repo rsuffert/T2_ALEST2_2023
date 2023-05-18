@@ -52,12 +52,12 @@ public class App {
     public static int travelToLastPort(BagGraph mapGraph) {
         int distance = 0;
 
-        int originPortIdx = 0;
+        int originPortIdx      = 0;
         int destinationPortIdx = 1;
         while (destinationPortIdx < mapGraph.getPortsCount()-1) { // while we haven't got to the last port yet
-            int originPortCode = mapGraph.translatePortToCode(originPortIdx);
+            int originPortCode      = mapGraph.translatePortToCode(originPortIdx);
             int destinationPortCode = mapGraph.translatePortToCode(destinationPortIdx);
-            BreadthFirstSearch bfs = new BreadthFirstSearch(mapGraph, originPortCode);
+            BreadthFirstSearch bfs  = new BreadthFirstSearch(mapGraph, originPortCode);
             if (bfs.hasPathTo(destinationPortCode)) { // if there's a path to the destination
                 // "visit it", i.e.:
                 distance += bfs.distanceTo(destinationPortCode);
@@ -79,10 +79,10 @@ public class App {
      */
     public static Integer returnToFirstPort(BagGraph mapGraph) {
         int firstPortIdx = 0;
-        int lastPortIdx = lastPortVisited;
+        int lastPortIdx  = lastPortVisited;
 
         int firstPortCode = mapGraph.translatePortToCode(firstPortIdx);
-        int lastPortCode = mapGraph.translatePortToCode(lastPortIdx);
+        int lastPortCode  = mapGraph.translatePortToCode(lastPortIdx);
 
         BreadthFirstSearch bfs = new BreadthFirstSearch(mapGraph, lastPortCode);
 
