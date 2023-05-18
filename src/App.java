@@ -1,6 +1,5 @@
 import java.io.IOException;
 import java.nio.file.InvalidPathException;
-import java.nio.file.Paths;
 import java.text.NumberFormat;
 import java.util.Locale;
 import javax.swing.JOptionPane;
@@ -12,7 +11,6 @@ import javax.swing.JOptionPane;
  */
 public class App {
     public static int lastPortVisited;
-    public static final String SUPPORTED_EXTENSION = ".map";
     private static final String NEWLINE = System.getProperty("line.separator");
 
     public static void main(String[] args) {
@@ -22,10 +20,8 @@ public class App {
         
         // create a graph that contains the information about the map
         Graph mapGraph = null;
-        try {
-            if (mapPath == null) throw new InvalidPathException("mapPath", "O caminho para o mapa não pode ser nulo");
-            mapPath = mapPath.trim();
-            mapGraph = new Graph(Paths.get(mapPath));
+        try { 
+            mapGraph = new Graph(mapPath); 
         } catch (InvalidPathException e) {
             JOptionPane.showMessageDialog(null, String.format("%s.%sO programa será encerrado.", e.getReason(), NEWLINE), 
                                           "ERRO!", JOptionPane.ERROR_MESSAGE);

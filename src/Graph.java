@@ -2,7 +2,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
-import java.nio.file.Path;
+import java.nio.file.InvalidPathException;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -27,12 +28,15 @@ public class Graph {
      
     /**
      * CONSTRUCTOR
-     * @param p the path to the file that contains the information about the graph
+     * @param path the string representing the path to the file that contains the information about the graph
      * @throws IOException if the file could not be read
+     * @throws InvalidPathException if the string representing the path is null
      */
     @SuppressWarnings("all")
-    public Graph(Path p) throws IOException {
-        BufferedReader reader = Files.newBufferedReader(p, Charset.forName("utf8"));
+    public Graph(String path) throws IOException, InvalidPathException {
+        if (path == null) throw new InvalidPathException("mapPath", "O caminho para o mapa não pode ser nulo");
+
+        BufferedReader reader = Files.newBufferedReader(Paths.get(path.trim()), Charset.forName("utf8"));
 
         String line;
 
