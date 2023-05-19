@@ -3,7 +3,7 @@ import java.util.Queue;
 import datastructures.Bag;
 
 /**
- * This class implements the breadth-first search algorithm for a graph implemented with an adjacency matrix.
+ * This class implements the breadth-first search algorithm.
  * @author Ricardo Süffert
  * @author Edson Moreno
  */
@@ -13,7 +13,7 @@ public class BreadthFirstSearch {
     private int[] distTo;
 
     /**
-     * CONSTRUCTOR.
+     * CONSTRUCTOR
      * @param g base graph
      * @param s reference vertex
      */

@@ -10,13 +10,13 @@ import javax.swing.JOptionPane;
  * @author Ricardo Süffert
  */
 public class App {
-    public static int lastPortVisited;
+    public static int lastPortVisited = 0;
     private static final String NEWLINE = System.getProperty("line.separator");
 
     public static void main(String[] args) {
         // get the path to the file that contains the map
         String mapPath = JOptionPane.showInputDialog(null, "Digite o caminho para o arquivo do mapa:", 
-                                               "Qual o arquivo do mapa?", JOptionPane.INFORMATION_MESSAGE);
+                                                     "Qual o arquivo do mapa?", JOptionPane.INFORMATION_MESSAGE);
         
         // create a graph that contains the information about the map
         Graph mapGraph = null;
@@ -34,8 +34,7 @@ public class App {
 
         if (mapGraph.getPortsCount() == 0) {
             JOptionPane.showMessageDialog(null, String.format("O mapa de entrada não possui nenhum porto.%sO programa será encerrado.", NEWLINE),
-                                          "NÃO HÁ PORTOS NO MAPA!", 
-                                          JOptionPane.ERROR_MESSAGE);
+                                          "NÃO HÁ PORTOS NO MAPA!", JOptionPane.ERROR_MESSAGE);
             System.exit(-3);
         }
 
@@ -59,7 +58,7 @@ public class App {
     /**
      * Tells the distance from the first port in the map to the last port in the map, visiting all ports that are accessible
      * @param mapGraph the graph
-     * @return the distance from the first port to the last port in the graph
+     * @return the distance from the first port to the last port in the graph, visiting all accessible ports
      */
     public static int travelToLastPort(Graph mapGraph) {
         int distance = 0;
@@ -85,9 +84,9 @@ public class App {
     }
 
     /**
-     * Tells the distance from the last port in the map to the first port in the map
-     * @param mapGraph the graph
-     * @return the distance from the last port to the first port in the graph
+     * Tells the distance from the last port in the map directly to the first port in the map, without making any stops
+     * @param mapGraph the map graph
+     * @return the direct distance from the last port to the first port in the graph
      */
     public static Integer returnToFirstPort(Graph mapGraph) {
         int firstPortIdx = 1;
