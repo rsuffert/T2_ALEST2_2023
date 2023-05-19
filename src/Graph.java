@@ -55,8 +55,8 @@ public class Graph {
         // mapping the nodes of the graph (code -> char value)
         int sequencer = 0;
         while ((line = reader.readLine()) != null) { // for each line of input file
-            char[] lineData = splitLine(line);
-            for (char vertex : lineData) { // for each vertex in the line
+            for (int c=0; c<line.length(); c++) { // for each character in the line (vertex)
+                char vertex = line.charAt(c);
                 int vertexCode = sequencer++;
                 codeToChar.put(vertexCode, vertex); // map the vertex to an integer value
                 if (Character.isDigit(vertex)) { // if the vertex is a port (digit)
@@ -93,21 +93,6 @@ public class Graph {
             if (validEast)   adj[v].add(east);
             if (validWest)   adj[v].add(west);
         }
-    }
-
-    /**
-     * Splits a given string (i.e., breaks it into its {@code char} values).
-     * @param line the line to be split
-     * @return a {@code char} array, containing all {@code char} elements in the string.
-     */
-    private char[] splitLine (String line) {
-        char[] lineSplit = new char[line.length()];
-
-        for (int i=0; i<line.length(); i++) {
-            lineSplit[i] = line.charAt(i);
-        }
-
-        return lineSplit;
     }
 
     /**
