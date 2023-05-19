@@ -50,7 +50,7 @@ public class App {
         Locale locale = new Locale.Builder().setLanguage("pt").setRegion("BR").build();
         NumberFormat nf = NumberFormat.getNumberInstance(locale);
         JOptionPane.showMessageDialog(null, 
-                                      String.format("Para viajar do porto 1 ao %s, serão necessários %sL de combustível.", 
+                                      String.format("Para viajar do porto 1 ao %s, serão necessários %s un. de combustível.", 
                                                                                     nf.format(mapGraph.getPortsCount()), 
                                                                                     nf.format(totalFuel)), 
                                       "RESULTADO", JOptionPane.INFORMATION_MESSAGE);
@@ -73,10 +73,10 @@ public class App {
             if (bfs.hasPathTo(destinationPortCode)) { // if there's a path to the destination
                 // "visit it", i.e.:
                 distance += bfs.distanceTo(destinationPortCode);
-                originPortIdx = destinationPortIdx;
-                destinationPortIdx++;
+                originPortIdx = destinationPortIdx; // apenas avancar para o destino se tiver um caminho para la
             }
-            else destinationPortIdx++; // if the destination cannot be accessed, skip it
+
+            destinationPortIdx++;
         }
 
         lastPortVisited = originPortIdx;
