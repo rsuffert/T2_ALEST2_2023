@@ -10,13 +10,13 @@ import javax.swing.JOptionPane;
  * @author Ricardo Süffert
  */
 public class App {
-    private static int lastPortVisited = 0;
     private static final String NEWLINE = System.getProperty("line.separator");
+    private static int lastPortVisited = 0;
 
     public static void main(String[] args) {
         // get the path to the file that contains the map
-        String mapPath = JOptionPane.showInputDialog(null, "Digite o caminho para o arquivo do mapa:", 
-                                                     "Qual o arquivo do mapa?", JOptionPane.INFORMATION_MESSAGE);
+        String mapPath = JOptionPane.showInputDialog(null, 
+                                                     "Digite o CAMINHO (relativo ou absoluto) para o arquivo do mapa:");
         
         // create a graph that contains the information about the map
         Graph mapGraph = null;
@@ -27,7 +27,7 @@ public class App {
                                           "ERRO!", JOptionPane.ERROR_MESSAGE);
             System.exit(-1);
         } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, String.format("Não foi possível ler o arquivo de entrada!%sO programa será encerrado.", NEWLINE), 
+            JOptionPane.showMessageDialog(null, String.format("Não foi possível ler o arquivo de entrada!%sVerifique o caminho e tente novamente.%sO programa será encerrado.", NEWLINE, NEWLINE), 
                                           "ERRO DE I/O!", JOptionPane.ERROR_MESSAGE);
             System.exit(-2);
         }
@@ -46,7 +46,7 @@ public class App {
         int totalFuel = firstToLastDistance + lastToFirstDistance;
 
         // printing the result using the Brazilian standard for separators
-        Locale locale = new Locale.Builder().setLanguage("pt").setRegion("BR").build();
+        Locale locale   = new Locale.Builder().setLanguage("pt").setRegion("BR").build();
         NumberFormat nf = NumberFormat.getNumberInstance(locale);
         JOptionPane.showMessageDialog(null, 
                                       String.format("Para viajar do porto 1 ao %s, serão necessários %s un. de combustível.", 
@@ -72,7 +72,7 @@ public class App {
             if (bfs.hasPathTo(destinationPortCode)) { // if there's a path to the destination
                 // "visit it", i.e.:
                 distance += bfs.distanceTo(destinationPortCode);
-                originPortIdx = destinationPortIdx; // apenas avancar para o destino se tiver um caminho para la
+                originPortIdx = destinationPortIdx; // only visit the destination if there's a valid path
             }
 
             destinationPortIdx++;

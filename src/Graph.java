@@ -66,32 +66,38 @@ public class Graph {
         }
 
         reader.close();
+        fillAdj(columns);
+    }
 
-        // adding the adjacencies to the graph
-        final int FIRST_IN_LAST_ROW   = VERTEX_COUNT-columns;
-        final int FIRST_IN_SECOND_ROW = columns;
+    /**
+     * Fills the adjacency list of each vertex.
+     * @param nColumns the number of columns in the map
+     */
+    private void fillAdj(int nColumns) {
+        final int FIRST_IN_LAST_ROW   = VERTEX_COUNT-nColumns;
+        final int FIRST_IN_SECOND_ROW = nColumns;
         for (int v=0; v<VERTEX_COUNT; v++) { // for each vertex in the bag array
             adj[v] = new Bag<>();
             // theoretically, the four vertices adjacent to the vertex in the bag array could be found as follows
-            int south = v+columns;
-            int north = v-columns;
+            int south = v+nColumns;
+            int north = v-nColumns;
             int east  = v+1;
             int west  = v-1;
 
             // but not all vertices have adjacents, so we have to figure out which adjacent vertices the current vertex has
             // and add only those which are valid to the adjacency list (also discard '*' vertices, which are not valid)
-            int currentRow        = v / columns;
-            int firstInNextRow    = currentRow * columns + columns;
-            int firstInCurrentRow = firstInNextRow - columns;
+            int currentRow        = v / nColumns;
+            int firstInNextRow    = currentRow * nColumns + nColumns;
+            int firstInCurrentRow = firstInNextRow - nColumns;
             boolean validSouth = (v < FIRST_IN_LAST_ROW)    && (codeToChar.get(south) != '*');
             boolean validNorth = (v >= FIRST_IN_SECOND_ROW) && (codeToChar.get(north) != '*');
             boolean validEast  = (v < firstInNextRow-1)     && (codeToChar.get(east) != '*');
             boolean validWest  = (v > firstInCurrentRow)    && (codeToChar.get(west) != '*');
 
-            if (validSouth)  adj[v].add(south);
-            if (validNorth)  adj[v].add(north);
-            if (validEast)   adj[v].add(east);
-            if (validWest)   adj[v].add(west);
+            if (validSouth) adj[v].add(south);
+            if (validNorth) adj[v].add(north);
+            if (validEast)  adj[v].add(east);
+            if (validWest)  adj[v].add(west);
         }
     }
 
@@ -123,12 +129,6 @@ public class Graph {
      * @return the number of vertices in this graph
      */
     public int getVertexCount() { return VERTEX_COUNT; }
-
-    // throw an IllegalArgumentException unless {@code 0 <= v < V}
-    private void validateVertex(int v) {
-        if (v < 0 || v >= VERTEX_COUNT)
-            throw new IllegalArgumentException("vertex " + v + " is not between 0 and " + (VERTEX_COUNT-1));
-    }
  
     /**
      * Returns the vertices adjacent to vertex {@code v}.
@@ -140,16 +140,11 @@ public class Graph {
         validateVertex(v);
         return adj[v];
     }
- 
-    /**
-     * Returns the degree of vertex {@code v}.
-     * @param  v the vertex
-     * @return the degree of vertex {@code v}
-     * @throws IllegalArgumentException unless {@code 0 <= v < V}
-     */
-    public int degree(int v) {
-        validateVertex(v);
-        return adj[v].size();
+
+    // throw an IllegalArgumentException unless {@code 0 <= v < V}
+    private void validateVertex(int v) {
+        if (v < 0 || v >= VERTEX_COUNT)
+            throw new IllegalArgumentException("vertex " + v + " is not between 0 and " + (VERTEX_COUNT-1));
     }
  
     /**
