@@ -49,7 +49,7 @@ public class App {
         Locale locale   = new Locale.Builder().setLanguage("pt").setRegion("BR").build();
         NumberFormat nf = NumberFormat.getNumberInstance(locale);
         JOptionPane.showMessageDialog(null, 
-                                      String.format("Para viajar do porto 1 ao %s, serão necessários %s un. de combustível.", 
+                                      String.format("Para viajar do porto 1 ao %s, serão necessárias %s un. de combustível.", 
                                                                                     nf.format(mapGraph.getPortsCount()), 
                                                                                     nf.format(totalFuel)), 
                                       "RESULTADO", JOptionPane.INFORMATION_MESSAGE);
