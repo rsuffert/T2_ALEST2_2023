@@ -13,7 +13,7 @@ import datastructures.Bag;
 
 /**
  * Implementation of a graph for the Phoenician problem, based off of Robert Sedgewick's and Kevin Wayne's implementation for a graph
- * of integer vertexes.
+ * of integer vertices.
  * @author Ricardo Süffert
  * @author Robert Sedgewick
  * @author Kevin Wayne
@@ -21,26 +21,26 @@ import datastructures.Bag;
 public class Graph {
     private static final String NEWLINE = System.getProperty("line.separator");
 
-    private final int VERTEX_COUNT;
-    private Bag<Integer>[] adj; // adj[i] contains a list of all the vertexes that are adjacent to i
+    private final int VERTEX_COUNT; // number of vertices in the graph
+    private Bag<Integer>[] adj; // adj[i] contains a list of all the vertices that are adjacent to i
     private Map<Integer, Character> codeToChar; // maps the integer vertex to its actual character value
     private Map<Character, Integer> portToCode; // maps the port code (1-9) to its code in the datastructure
      
     /**
-     * CONSTRUCTOR
+     * CONSTRUCTOR.
      * @param path the string representing the path to the file that contains the information about the graph
      * @throws IOException if the file could not be read
-     * @throws InvalidPathException if the string representing the path is null
+     * @throws InvalidPathException if the {@code String} object representing the path is {@code null}
      */
     @SuppressWarnings("all")
     public Graph(String path) throws IOException, InvalidPathException {
-        if (path == null) throw new InvalidPathException("mapPath", "O caminho para o mapa não pode ser nulo");
+        if (path == null) throw new InvalidPathException("", "O caminho para o mapa não pode ser nulo");
 
         BufferedReader reader = Files.newBufferedReader(Paths.get(path.trim()), Charset.forName("utf8"));
 
         String line;
 
-        // finding out how many vertexes we have
+        // finding out how many vertices we have
         line = reader.readLine();
         String[] linesColumns = line.split(" ");
         int lines = Integer.parseInt(linesColumns[0]);
@@ -72,14 +72,14 @@ public class Graph {
         final int FIRST_IN_SECOND_ROW = columns;
         for (int v=0; v<VERTEX_COUNT; v++) { // for each vertex in the bag array
             adj[v] = new Bag<>();
-            // theoretically, the four vertexes adjacent to the vertex in the bag array could be found as follows
+            // theoretically, the four vertices adjacent to the vertex in the bag array could be found as follows
             int south = v+columns;
             int north = v-columns;
             int east  = v+1;
             int west  = v-1;
 
-            // but not all vertexes have adjacents, so we have to figure out which adjacent vertexes the current vertex has
-            // and add only those which are valid to the adjacency list (also discard '*' vertexes, which are not valid)
+            // but not all vertices have adjacents, so we have to figure out which adjacent vertices the current vertex has
+            // and add only those which are valid to the adjacency list (also discard '*' vertices, which are not valid)
             int currentRow        = v / columns;
             int firstInNextRow    = currentRow * columns + columns;
             int firstInCurrentRow = firstInNextRow - columns;
@@ -96,14 +96,14 @@ public class Graph {
     }
 
     /**
-     * Translates a given vertex code to its respective character (actual value)
+     * Translates a given vertex code to its respective character (actual value).
      * @param code the vertex code
-     * @return the character associated with {@code code}
+     * @return the character associated with {@code code}, or {@code null} if there isn't any character associated with it
      */
     public Character translateVertexCode(int code) { return codeToChar.get(code); }
 
     /**
-     * Translates a given port number to its respective code in the graph datastructure
+     * Translates a given port number to its respective code in the graph datastructure.
      * @param portNumber the number of the port
      * @return the integer value associated with the {@code portNumber} parametes, or {@code null} if the port is not in the graph
      */
@@ -113,14 +113,13 @@ public class Graph {
     }
 
     /**
-     * Tells how many ports there are in the map
+     * Tells how many ports there are in the map.
      * @return the number of ports in the map
      */
     public int getPortsCount() { return portToCode.size(); }
  
     /**
      * Returns the number of vertices in this graph.
-     *
      * @return the number of vertices in this graph
      */
     public int getVertexCount() { return VERTEX_COUNT; }
@@ -133,7 +132,6 @@ public class Graph {
  
     /**
      * Returns the vertices adjacent to vertex {@code v}.
-     *
      * @param  v the vertex
      * @return the vertices adjacent to vertex {@code v}, as an iterable
      * @throws IllegalArgumentException unless {@code 0 <= v < V}
@@ -145,7 +143,6 @@ public class Graph {
  
     /**
      * Returns the degree of vertex {@code v}.
-     *
      * @param  v the vertex
      * @return the degree of vertex {@code v}
      * @throws IllegalArgumentException unless {@code 0 <= v < V}
@@ -157,7 +154,6 @@ public class Graph {
  
     /**
      * Returns a string representation of this graph.
-     *
      * @return the number of vertices <em>V</em>, followed by the number of edges <em>E</em>,
      *         followed by the <em>V</em> adjacency lists
      */
@@ -176,7 +172,6 @@ public class Graph {
      
     /**
      * Returns this graph as an input for GraphViz (dot format).
-     *
      * @return dot graph representation
      */    
     public String toDot() {

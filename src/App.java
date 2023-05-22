@@ -10,7 +10,7 @@ import javax.swing.JOptionPane;
  * @author Ricardo Süffert
  */
 public class App {
-    public static int lastPortVisited = 0;
+    private static int lastPortVisited = 0;
     private static final String NEWLINE = System.getProperty("line.separator");
 
     public static void main(String[] args) {
@@ -40,7 +40,7 @@ public class App {
 
         // find out the distances from the first to the last port and from the last to the first port
         int firstToLastDistance = mapGraph.getPortsCount() >= 2? travelToLastPort(mapGraph)  : 0;
-        int lastToFirstDistance = mapGraph.getPortsCount() >= 2? returnToFirstPort(mapGraph) : 0;
+        Integer lastToFirstDistance = mapGraph.getPortsCount() >= 2? returnToFirstPort(mapGraph) : 0;
 
         // the total fuel necessary will be equal to firstToLastDistance + lastToFirstDistance, since each movement consumes 1 unit of fuel
         int totalFuel = firstToLastDistance + lastToFirstDistance;
@@ -56,7 +56,7 @@ public class App {
     }
 
     /**
-     * Tells the distance from the first port in the map to the last port in the map, visiting all ports that are accessible
+     * Tells the distance from the first port in the map to the last port in the map, visiting all ports that are accessible in order.
      * @param mapGraph the graph
      * @return the distance from the first port to the last port in the graph, visiting all accessible ports
      */
@@ -84,7 +84,7 @@ public class App {
     }
 
     /**
-     * Tells the distance from the last port in the map directly to the first port in the map, without making any stops
+     * Returns the distance from the last port in the map directly to the first port in the map, without making any stops.
      * @param mapGraph the map graph
      * @return the direct distance from the last port to the first port in the graph
      */
@@ -96,8 +96,6 @@ public class App {
         int lastPortCode  = mapGraph.translatePortToCode(lastPortIdx);
 
         BreadthFirstSearch bfs = new BreadthFirstSearch(mapGraph, lastPortCode);
-
-        if (!bfs.hasPathTo(firstPortCode)) return null; // cannot return
 
         return bfs.distanceTo(firstPortCode);
     }
