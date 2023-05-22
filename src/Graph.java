@@ -27,7 +27,7 @@ public class Graph {
     private Map<Character, Integer> portToCode; // maps the port code (1-9) to its code in the datastructure
      
     /**
-     * CONSTRUCTOR.
+     * Constructs an empty graph based on a certain input file, which must conform with the specification for input files for this program.
      * @param path the string representing the path to the file that contains the information about the graph
      * @throws IOException if the file could not be read
      * @throws InvalidPathException if the {@code String} object representing the path is {@code null}

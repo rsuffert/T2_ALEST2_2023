@@ -13,9 +13,9 @@ public class BreadthFirstSearch {
     private int[] distTo; // stores the distance from the reference vertex to the vertex represented by the index in the array
 
     /**
-     * CONSTRUCTOR.
-     * @param g base graph
-     * @param s reference vertex
+     * Constructs an object that carries out the breadth-first algorithm for a certain reference vertex in a given graph.
+     * @param g the base graph
+     * @param s the reference vertex
      */
     public BreadthFirstSearch(Graph g, int s) {
         this.marked = new boolean[g.getVertexCount()];
@@ -27,8 +27,8 @@ public class BreadthFirstSearch {
 
     /**
      * Implements the breadth-first search algorithm.
-     * @param g base graph
-     * @param s reference vertex
+     * @param g the base graph
+     * @param s the reference vertex
      */
     private void bfs (Graph g, int s) {
         Queue<Integer> q = new LinkedList<>(); // queue of the vertices whose adjacents need to be visited
