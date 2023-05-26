@@ -1,0 +1,1 @@
+typeSearchIndex = [{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"pucrs.alest2.assignment2.rsuffert","l":"App"},{"p":"pucrs.alest2.assignment2.rsuffert","l":"Bag"},{"p":"pucrs.alest2.assignment2.rsuffert","l":"BreadthFirstSearch"},{"p":"pucrs.alest2.assignment2.rsuffert","l":"Graph"}];updateSearchResults();

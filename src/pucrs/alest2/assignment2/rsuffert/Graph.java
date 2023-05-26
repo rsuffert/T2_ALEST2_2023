@@ -1,3 +1,5 @@
+package pucrs.alest2.assignment2.rsuffert;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -9,11 +11,10 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import datastructures.Bag;
-
 /**
- * Implementation of a graph for the Phoenician problem, based off of Robert Sedgewick's and Kevin Wayne's implementation for a graph
- * of integer vertices.
+ * The {@link Graph} class is the implementation of a graph for the Phoenician problem, based off of Robert Sedgewick's and Kevin Wayne's
+ * implementation for a graph of integer vertices, which uses an array of {@link Bag} elements to store the vertices of the graph and the
+ * adjacency list of each one of them.
  * @author Ricardo Süffert
  * @author Robert Sedgewick
  * @author Kevin Wayne

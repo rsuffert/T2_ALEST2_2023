@@ -1,3 +1,5 @@
+package pucrs.alest2.assignment2.rsuffert;
+
 import java.io.IOException;
 import java.nio.file.InvalidPathException;
 import java.text.NumberFormat;
@@ -5,8 +7,9 @@ import java.util.Locale;
 import javax.swing.JOptionPane;
 
 /**
- * This class implements the solution to the Phoenician problem, using resources implemented in the other classes in this folder,
- * such as a graph datastructure and the breadth-first algorithm.
+ * The {@link App} class implements the solution to the Phoenician problem, using resources implemented in the other classes in this folder,
+ * such as a graph datastructure (implemented by the {@link Graph} class) and the breadth-first algorithm (implemented by the
+ * {@link BreadthFirstSearch} class).
  * @author Ricardo Süffert
  */
 public class App {
@@ -49,7 +52,7 @@ public class App {
         Locale locale   = new Locale.Builder().setLanguage("pt").setRegion("BR").build();
         NumberFormat nf = NumberFormat.getNumberInstance(locale);
         JOptionPane.showMessageDialog(null, 
-                                      String.format("Para viajar do porto 1 ao %s, serão necessárias %s un. de combustível.", 
+                                      String.format("Para viajar do porto 1 ao %s e retornar, serão necessárias %s un. de combustível.", 
                                                                                     nf.format(mapGraph.getPortsCount()), 
                                                                                     nf.format(totalFuel)), 
                                       "RESULTADO", JOptionPane.INFORMATION_MESSAGE);
@@ -57,7 +60,7 @@ public class App {
 
     /**
      * Tells the distance from the first port in the map to the last port in the map, visiting all ports that are accessible in order.
-     * @param mapGraph the graph
+     * @param mapGraph the map graph
      * @return the distance from the first port to the last port in the graph, visiting all accessible ports
      */
     public static int travelToLastPort(Graph mapGraph) {

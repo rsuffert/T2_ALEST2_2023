@@ -1,9 +1,11 @@
+package pucrs.alest2.assignment2.rsuffert;
+
 import java.util.LinkedList;
 import java.util.Queue;
-import datastructures.Bag;
 
 /**
- * This class implements the breadth-first search algorithm.
+ * The {@link BreadthFirstSearch} class implements the breadth-first search algorithm, which always returns the shortest path (i.e., the path
+ * that visits as few vertices as possible) between two vertices in a {@link Graph} instance.
  * @author Ricardo Süffert
  * @author Edson Moreno
  */
