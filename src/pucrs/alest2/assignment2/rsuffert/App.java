@@ -2,6 +2,7 @@ package pucrs.alest2.assignment2.rsuffert;
 
 import java.io.IOException;
 import java.nio.file.InvalidPathException;
+import java.security.InvalidAlgorithmParameterException;
 import java.text.NumberFormat;
 import java.util.Locale;
 import javax.swing.JOptionPane;
@@ -27,7 +28,7 @@ public class App {
             mapGraph = new Graph(mapPath); 
         } catch (InvalidPathException e) {
             JOptionPane.showMessageDialog(null, String.format("%s.%sO programa será encerrado.", e.getReason(), NEWLINE), 
-                                          "ERRO!", JOptionPane.ERROR_MESSAGE);
+                                          "ERRO NA EXECUÇÃO!", JOptionPane.ERROR_MESSAGE);
             System.exit(-1);
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, String.format("Não foi possível ler o arquivo de entrada!%sVerifique o caminho e tente novamente.%sO programa será encerrado.", NEWLINE, NEWLINE), 
@@ -35,16 +36,18 @@ public class App {
             System.exit(-2);
         }
 
-        if (mapGraph.getPortsCount() == 0) {
-            JOptionPane.showMessageDialog(null, String.format("O mapa de entrada não possui nenhum porto.%sO programa será encerrado.", NEWLINE),
-                                          "NÃO HÁ PORTOS NO MAPA!", JOptionPane.ERROR_MESSAGE);
+        // find out the distances from the first to the last port and from the last to the first port
+        int firstToLastDistance = 0;
+        int lastToFirstDistance = 0;
+        try {
+            firstToLastDistance = travelToLastPort(mapGraph);
+            lastToFirstDistance = returnToFirstPort(mapGraph);
+        } catch (InvalidAlgorithmParameterException e) {
+            JOptionPane.showMessageDialog(null, String.format("%s!%sO programa será encerrado.", e.getMessage(), NEWLINE),
+                                          "ERRO NA EXECUÇÃO!", JOptionPane.ERROR_MESSAGE);
             System.exit(-3);
         }
-
-        // find out the distances from the first to the last port and from the last to the first port
-        int firstToLastDistance = mapGraph.getPortsCount() >= 2? travelToLastPort(mapGraph)  : 0;
-        int lastToFirstDistance = mapGraph.getPortsCount() >= 2? returnToFirstPort(mapGraph) : 0;
-
+        
         // the total fuel necessary will be equal to firstToLastDistance + lastToFirstDistance, since each movement consumes 1 unit of fuel
         int totalFuel = firstToLastDistance + lastToFirstDistance;
 
@@ -53,17 +56,22 @@ public class App {
         NumberFormat nf = NumberFormat.getNumberInstance(locale);
         JOptionPane.showMessageDialog(null, 
                                       String.format("Para viajar do porto 1 ao %s e retornar, serão necessárias %s un. de combustível.", 
-                                                                                    nf.format(mapGraph.getPortsCount()), 
+                                                                                    nf.format(lastPortVisited), 
                                                                                     nf.format(totalFuel)), 
-                                      "RESULTADO", JOptionPane.INFORMATION_MESSAGE);
+                                      "RESULTADO DA SIMULAÇÃO", JOptionPane.INFORMATION_MESSAGE);
     }
 
     /**
      * Tells the distance from the first port in the map to the last port in the map, visiting all ports that are accessible in order.
      * @param mapGraph the map graph
-     * @return the distance from the first port to the last port in the graph, visiting all accessible ports
+     * @throws InvalidAlgorithmParameterException if {@code mapGraph} does not have any ports
+     * @return the distance from the first port to the last port in the graph, visiting all accessible ports (for maps that have only
+     *         one port, the distance is zero)
      */
-    public static int travelToLastPort(Graph mapGraph) {
+    public static int travelToLastPort(Graph mapGraph) throws InvalidAlgorithmParameterException {
+        if (mapGraph.getPortsCount() == 0) throw new InvalidAlgorithmParameterException("O mapa não possui nenhum porto");
+        else if (mapGraph.getPortsCount() == 1) return 0;
+        
         int distance = 0;
 
         int originPortIdx      = 1;
@@ -89,9 +97,14 @@ public class App {
     /**
      * Tells the distance from the last port in the map directly to the first port in the map, without making any stops.
      * @param mapGraph the map graph
-     * @return the direct distance from the last port to the first port in the graph
+     * @throws InvalidAlgorithmParameterException if {@code mapGraph} does not have any ports
+     * @return the direct distance from the last port to the first port in the graph (for maps that have only
+     *         one port, the distance is zero)
      */
-    public static int returnToFirstPort(Graph mapGraph) {
+    public static int returnToFirstPort(Graph mapGraph) throws InvalidAlgorithmParameterException {
+        if (mapGraph.getPortsCount() == 0) throw new InvalidAlgorithmParameterException("O mapa não possui nenhum porto");
+        else if (mapGraph.getPortsCount() == 1) return 0;
+
         int firstPortIdx = 1;
         int lastPortIdx  = lastPortVisited;
 
