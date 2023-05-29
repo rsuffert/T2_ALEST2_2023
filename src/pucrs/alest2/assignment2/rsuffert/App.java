@@ -64,7 +64,8 @@ public class App {
     /**
      * Tells the distance from the first port in the map to the last port in the map, visiting all ports that are accessible in order.
      * @param mapGraph the map graph
-     * @throws InvalidAlgorithmParameterException if {@code mapGraph} does not have any ports
+     * @throws InvalidAlgorithmParameterException if {@code mapGraph} does not have any ports, or if there is no reachable port leaving from
+     *                                            the first port
      * @return the distance from the first port to the last port in the graph, visiting all accessible ports (for maps that have only
      *         one port, the distance is zero)
      */
@@ -91,13 +92,17 @@ public class App {
 
         lastPortVisited = originPortIdx;
 
+        // if, after checking all ports, no movement has been done, that means there are no reachable ports
+        if (distance == 0) throw new InvalidAlgorithmParameterException("Não há nenhum porto alcançável partindo do primeiro");
+
         return distance;
     }
 
     /**
      * Tells the distance from the last port in the map directly to the first port in the map, without making any stops.
      * @param mapGraph the map graph
-     * @throws InvalidAlgorithmParameterException if {@code mapGraph} does not have any ports
+     * @throws InvalidAlgorithmParameterException if {@code mapGraph} does not have any ports, or if there is no valid path from the last
+     *                                            port to the first one
      * @return the direct distance from the last port to the first port in the graph (for maps that have only
      *         one port, the distance is zero)
      */
@@ -113,6 +118,8 @@ public class App {
 
         BreadthFirstSearch bfs = new BreadthFirstSearch(mapGraph, lastPortCode);
 
-        return bfs.distanceTo(firstPortCode);
+        Integer distance = bfs.distanceTo(firstPortCode);
+        if (distance == null) throw new InvalidAlgorithmParameterException("Não há um caminho do último porto ao primeiro");
+        return distance;
     }
 }
