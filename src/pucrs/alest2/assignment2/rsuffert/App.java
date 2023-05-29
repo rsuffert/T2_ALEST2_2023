@@ -64,14 +64,22 @@ public class App {
     /**
      * Tells the distance from the first port in the map to the last port in the map, visiting all ports that are accessible in order.
      * @param mapGraph the map graph
-     * @throws InvalidAlgorithmParameterException if {@code mapGraph} does not have any ports
+     * @throws InvalidAlgorithmParameterException if {@code mapGraph} does not have any ports or if it has only two ports and one of them
+     *                                            is not reachable
      * @return the distance from the first port to the last port in the graph, visiting all accessible ports (for maps that have only
      *         one port, the distance is zero)
      */
     public static int travelToLastPort(Graph mapGraph) throws InvalidAlgorithmParameterException {
         if (mapGraph.getPortsCount() == 0) throw new InvalidAlgorithmParameterException("O mapa não possui nenhum porto");
         else if (mapGraph.getPortsCount() == 1) return 0;
-        
+        else if (mapGraph.getPortsCount() == 2) {
+            // check if there's a valid path from port 1 to 2 (if not, the ship cannot move)
+            int port1Code = mapGraph.translatePortToCode(1);
+            int port2Code = mapGraph.translatePortToCode(2);
+            if (!new BreadthFirstSearch(mapGraph, port1Code).hasPathTo(port2Code)) 
+                throw new InvalidAlgorithmParameterException("O mapa possui apenas dois portos e não é possível chegar do primeiro ao segundo");
+        }
+
         int distance = 0;
 
         int originPortIdx      = 1;
@@ -97,13 +105,21 @@ public class App {
     /**
      * Tells the distance from the last port in the map directly to the first port in the map, without making any stops.
      * @param mapGraph the map graph
-     * @throws InvalidAlgorithmParameterException if {@code mapGraph} does not have any ports
+     * @throws InvalidAlgorithmParameterException if {@code mapGraph} does not have any ports or if it has only two ports and one of them
+     *                                            is not reachable
      * @return the direct distance from the last port to the first port in the graph (for maps that have only
      *         one port, the distance is zero)
      */
     public static int returnToFirstPort(Graph mapGraph) throws InvalidAlgorithmParameterException {
         if (mapGraph.getPortsCount() == 0) throw new InvalidAlgorithmParameterException("O mapa não possui nenhum porto");
         else if (mapGraph.getPortsCount() == 1) return 0;
+        else if (mapGraph.getPortsCount() == 2) {
+            // check if there's a valid path from port 2 to 1 (if not, the ship cannot move)
+            int port2Code = mapGraph.translatePortToCode(2);
+            int port1Code = mapGraph.translatePortToCode(1);
+            if (!new BreadthFirstSearch(mapGraph, port2Code).hasPathTo(port1Code)) 
+                throw new InvalidAlgorithmParameterException("O mapa possui apenas dois portos e não é possível chegar do último ao primeiro");
+        }
 
         int firstPortIdx = 1;
         int lastPortIdx  = lastPortVisited;
