@@ -22,6 +22,7 @@ public class App {
         String mapPath = JOptionPane.showInputDialog(null, 
                                                      "Digite o CAMINHO (relativo ou absoluto) para o arquivo do mapa:");
         
+        long initialTime = System.currentTimeMillis();
         // create a graph that contains the information about the map
         Graph mapGraph = null;
         try { 
@@ -50,6 +51,9 @@ public class App {
         
         // the total fuel necessary will be equal to firstToLastDistance + lastToFirstDistance, since each movement consumes 1 unit of fuel
         int totalFuel = firstToLastDistance + lastToFirstDistance;
+
+        long finalTime = System.currentTimeMillis();
+        System.out.printf("Tempo (seg): %f\n", (finalTime-initialTime)/1000.0);
 
         // printing the result using the Brazilian standard for separators
         Locale locale   = new Locale.Builder().setLanguage("pt").setRegion("BR").build();
