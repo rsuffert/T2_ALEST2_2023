@@ -35,7 +35,7 @@ public class Graph {
      */
     @SuppressWarnings("all")
     public Graph(String path) throws IOException, InvalidPathException {
-        if (path == null) throw new InvalidPathException(null, "O caminho para o mapa não pode ser nulo");
+        if (path == null) throw new InvalidPathException("", "O caminho para o mapa não pode ser nulo");
 
         BufferedReader reader = Files.newBufferedReader(Paths.get(path.trim()), Charset.forName("utf8"));
 
