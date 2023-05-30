@@ -53,7 +53,7 @@ public class App {
         int totalFuel = firstToLastDistance + lastToFirstDistance;
 
         long finalTime = System.currentTimeMillis();
-        System.out.printf("Tempo (seg): %f\n", (finalTime-initialTime)/1000.0);
+        System.out.printf("Tempo p/ calcular (seg): %f\n", (finalTime-initialTime)/1000.0);
 
         // printing the result using the Brazilian standard for separators
         Locale locale   = new Locale.Builder().setLanguage("pt").setRegion("BR").build();
@@ -90,7 +90,6 @@ public class App {
                 distance += bfs.distanceTo(destinationPortCode);
                 originPortIdx = destinationPortIdx; // only visit the destination if there's a valid path
             }
-
             destinationPortIdx++;
         }
 
@@ -98,7 +97,6 @@ public class App {
 
         // if, after checking all ports, no movement has been done, that means there are no reachable ports
         if (distance == 0) throw new InvalidAlgorithmParameterException("Não há nenhum porto alcançável partindo do primeiro");
-
         return distance;
     }
 
@@ -116,12 +114,10 @@ public class App {
 
         int firstPortIdx = 1;
         int lastPortIdx  = lastPortVisited;
-
         int firstPortCode = mapGraph.translatePortToCode(firstPortIdx);
         int lastPortCode  = mapGraph.translatePortToCode(lastPortIdx);
 
         BreadthFirstSearch bfs = new BreadthFirstSearch(mapGraph, lastPortCode);
-
         Integer distance = bfs.distanceTo(firstPortCode);
         if (distance == null) throw new InvalidAlgorithmParameterException("Não há um caminho do último porto ao primeiro");
         return distance;
