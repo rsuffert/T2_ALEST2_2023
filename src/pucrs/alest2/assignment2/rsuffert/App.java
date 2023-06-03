@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.InvalidPathException;
 import java.security.InvalidAlgorithmParameterException;
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.Locale;
 import javax.swing.JOptionPane;
 
@@ -16,6 +17,7 @@ import javax.swing.JOptionPane;
 public class App {
     private static final String NEWLINE = System.getProperty("line.separator");
     private static int lastPortVisited = 0;
+    private static String inaccessiblePorts = null;
 
     public static void main(String[] args) {
         // get the path to the file that contains the map
@@ -58,16 +60,19 @@ public class App {
         Locale locale   = new Locale.Builder().setLanguage("pt").setRegion("BR").build();
         NumberFormat nf = NumberFormat.getNumberInstance(locale);
         JOptionPane.showMessageDialog(null, 
-                                      String.format("Para viajar do porto 1 ao %s e retornar, serão necessárias %s un. de combustível.%s%sTempo para calcular: %s seg.", 
+                                      String.format("Para viajar do porto 1 ao %s e retornar, serão necessárias %s un. de combustível.%s%s%s%sTempo para calcular: %s seg.", 
                                                                                     nf.format(lastPortVisited), 
                                                                                     nf.format(totalFuel),
+                                                                                    NEWLINE,
+                                                                                    inaccessiblePorts == null? "Todos os portos são alcançáveis." : String.format("Porto(s) não alcançável(is): %s.", inaccessiblePorts),
                                                                                     NEWLINE, NEWLINE,
                                                                                     (double)(finalTime-initialTime)/1000), 
                                       "RESULTADO DA SIMULAÇÃO", JOptionPane.INFORMATION_MESSAGE);
     }
 
     /**
-     * Tells the distance from the first port in the map to the last port in the map, visiting all ports that are accessible in order.
+     * Tells the distance from the first to the last port in the map, visiting, in order, all ports that are accessible. Thist method
+     * also creates a string representing all ports that could not be accessed and stores it in a global variable ({@code inaccessiblePorts}).
      * @param mapGraph the map graph
      * @throws InvalidAlgorithmParameterException if {@code mapGraph} does not have any ports, or if there is no reachable port leaving from
      *                                            the first port
@@ -78,6 +83,7 @@ public class App {
         if (mapGraph.getPortsCount() == 0) throw new InvalidAlgorithmParameterException("O mapa não possui nenhum porto");
         else if (mapGraph.getPortsCount() == 1) return 0;
 
+        ArrayList<Integer> inaccessible = new ArrayList<>();
         int distance = 0;
 
         int originPortIdx      = 1;
@@ -91,10 +97,19 @@ public class App {
                 distance += bfs.distanceTo(destinationPortCode);
                 originPortIdx = destinationPortIdx; // only visit the destination if there's a valid path
             }
-            destinationPortIdx++;
+            else inaccessible.add(destinationPortIdx); // add this port as inaccessible
+            destinationPortIdx++; // go on to the next port
         }
 
         lastPortVisited = originPortIdx;
+
+        // build a string containing the inaccessible ports to be displayed
+        StringBuilder sb = new StringBuilder();
+        for (int i=0; i<inaccessible.size(); i++) {
+            if (i != inaccessible.size()-1) sb.append(inaccessible.get(i) + ", ");
+            else                            sb.append(inaccessible.get(i));
+        }
+        if (sb.length() > 0) inaccessiblePorts = sb.toString();
 
         // if, after checking all ports, no movement has been done, that means there are no reachable ports
         if (distance == 0) throw new InvalidAlgorithmParameterException("Não há nenhum porto alcançável partindo do primeiro");
