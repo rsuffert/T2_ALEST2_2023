@@ -53,15 +53,16 @@ public class App {
         int totalFuel = firstToLastDistance + lastToFirstDistance;
 
         long finalTime = System.currentTimeMillis();
-        System.out.printf("Tempo p/ calcular (seg): %f\n", (finalTime-initialTime)/1000.0);
 
         // printing the result using the Brazilian standard for separators
         Locale locale   = new Locale.Builder().setLanguage("pt").setRegion("BR").build();
         NumberFormat nf = NumberFormat.getNumberInstance(locale);
         JOptionPane.showMessageDialog(null, 
-                                      String.format("Para viajar do porto 1 ao %s e retornar, serão necessárias %s un. de combustível.", 
+                                      String.format("Para viajar do porto 1 ao %s e retornar, serão necessárias %s un. de combustível.%s%sTempo para calcular: %s seg.", 
                                                                                     nf.format(lastPortVisited), 
-                                                                                    nf.format(totalFuel)), 
+                                                                                    nf.format(totalFuel),
+                                                                                    NEWLINE, NEWLINE,
+                                                                                    (double)(finalTime-initialTime)/1000), 
                                       "RESULTADO DA SIMULAÇÃO", JOptionPane.INFORMATION_MESSAGE);
     }
 
