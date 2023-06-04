@@ -10,7 +10,7 @@ import javax.swing.JOptionPane;
 
 /**
  * The {@link App} class implements the solution to the Phoenician problem, using resources implemented in the other classes in this package,
- * such as a graph datastructure (implemented by the {@link Graph} class) and the breadth-first algorithm (implemented by the
+ * such as a graph datastructure (implemented by the {@link Graph} class) and the breadth-first search algorithm (implemented by the
  * {@link BreadthFirstSearch} class).
  * @author Ricardo Süffert
  */
