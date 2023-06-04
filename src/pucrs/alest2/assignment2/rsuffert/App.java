@@ -109,7 +109,7 @@ public class App {
         // build a string containing the inaccessible ports to be displayed
         StringBuilder sb = new StringBuilder();
         for (int i=0; i<inaccessible.size(); i++) {
-            if (i != inaccessible.size()-1) sb.append(inaccessible.get(i) + ", ");
+            if (i < inaccessible.size()-1) sb.append(inaccessible.get(i) + ", ");
             else                            sb.append(inaccessible.get(i));
         }
         if (sb.length() > 0) inaccessiblePorts = sb.toString();
