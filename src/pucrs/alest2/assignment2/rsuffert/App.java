@@ -103,16 +103,17 @@ public class App {
 
         lastPortVisited = originPortIdx;
 
+        // if, after checking all ports, no movement has been done, that means there are no reachable ports
+        if (distance == 0) throw new InvalidAlgorithmParameterException("Não há nenhum porto alcançável partindo do primeiro");
+
         // build a string containing the inaccessible ports to be displayed
         StringBuilder sb = new StringBuilder();
         for (int i=0; i<inaccessible.size(); i++) {
-            if (i != inaccessible.size()-1) sb.append(inaccessible.get(i) + ", ");
+            if (i < inaccessible.size()-1) sb.append(inaccessible.get(i) + ", ");
             else                            sb.append(inaccessible.get(i));
         }
         if (sb.length() > 0) inaccessiblePorts = sb.toString();
 
-        // if, after checking all ports, no movement has been done, that means there are no reachable ports
-        if (distance == 0) throw new InvalidAlgorithmParameterException("Não há nenhum porto alcançável partindo do primeiro");
         return distance;
     }
 
