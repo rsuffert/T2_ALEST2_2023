@@ -54,16 +54,16 @@ public class BreadthFirstSearch {
     }
 
     /**
-     * Tells whether or not a given vertex has a path to the reference vertex of this {@code BreadthFirstSearch} instance.
+     * Returns whether or not a given vertex has a path to the reference vertex of this {@code BreadthFirstSearch} instance.
      * @param v the vertex to be found out whether or not it has a path to the reference vertex of this instance
      * @return {@code true} if there is a path leading from {@code v} to the reference vertex of this instance; {@code false} if not
      */
     public boolean hasPathTo(int v) { return marked[v]; }
 
     /**
-     * Tells what the path from a given vertex to the reference vertex of this {@code BreadthFirstSearch} instance is.
+     * Returns the path from a given vertex to the reference vertex of this {@code BreadthFirstSearch} instance.
      * @param v the vertex from which it is wished to find out the path to the reference vertex of this instance
-     * @return the path from {@code v} to the reference vertex of this instance, or {@code null} if there isn't a path
+     * @return the path from {@code v} to the reference vertex of this instance as an {@code Iterable}, or {@code null} if there isn't a path
      */
     public Iterable<Integer> pathTo(int v) {
         if (!this.hasPathTo(v)) return null;
@@ -81,7 +81,7 @@ public class BreadthFirstSearch {
     }
 
     /**
-     * Tells how many vertices apart a given vertex is from the reference vertex of this {@code BreadthFirstSearch} instance.
+     * Returns how many vertices apart a given vertex is from the reference vertex of this {@code BreadthFirstSearch} instance.
      * @param v the vertex from which it is wished to find out the distance to the reference vertex of this instance
      * @return the distance from {@code v} to the reference vertex of this class, or {@code null} if there isn't a path from {@code v}
      *         to the reference vertex

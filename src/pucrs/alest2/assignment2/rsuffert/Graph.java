@@ -29,9 +29,10 @@ public class Graph {
      
     /**
      * Constructs an empty graph based on a certain input file, which must conform with the specification for input files for this program.
-     * @param path the string representing the path to the file that contains the information about the graph
-     * @throws IOException if the file could not be read
-     * @throws InvalidPathException if the {@code String} object representing the path is {@code null}
+     * For additional information, check the {@code docs} folder.
+     * @param path the string representing the path to the file that contains the map to be converted into a graph
+     * @throws IOException if an I/O error occures (for example, if the file could not be read)
+     * @throws InvalidPathException if the {@code String} object representing the path (the parameter {@code path}) is {@code null}
      */
     @SuppressWarnings("all")
     public Graph(String path) throws IOException, InvalidPathException {
@@ -112,7 +113,8 @@ public class Graph {
     /**
      * Translates a given port number to its respective code in the graph datastructure.
      * @param portNumber the number of the port
-     * @return the integer value associated with the {@code portNumber} parametes, or {@code null} if the port is not in the graph
+     * @return the integer value representing the code associated with the {@code portNumber} parameter, 
+     *         or {@code null} if the port is not in the graph
      */
     public Integer translatePortToCode(int portNumber) { 
         char characterPortNumber = Character.forDigit(portNumber, 10);
@@ -120,7 +122,7 @@ public class Graph {
     }
 
     /**
-     * Tells how many ports there are in the map.
+     * Returns how many ports there are in the map.
      * @return the number of ports in the map
      */
     public int getPortsCount() { return portToCode.size(); }
@@ -137,7 +139,7 @@ public class Graph {
      * @return the vertices adjacent to vertex {@code v}, as an iterable
      * @throws IllegalArgumentException unless {@code 0 <= v < V}
      */
-    public Iterable<Integer> adj(int v) { // using Iterable, the list returned is not modifiable
+    public Iterable<Integer> adj(int v) {
         validateVertex(v);
         return adj[v];
     }

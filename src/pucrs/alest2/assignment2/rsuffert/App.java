@@ -9,7 +9,7 @@ import java.util.Locale;
 import javax.swing.JOptionPane;
 
 /**
- * The {@link App} class implements the solution to the Phoenician problem, using resources implemented in the other classes in this folder,
+ * The {@link App} class implements the solution to the Phoenician problem, using resources implemented in the other classes in this package,
  * such as a graph datastructure (implemented by the {@link Graph} class) and the breadth-first algorithm (implemented by the
  * {@link BreadthFirstSearch} class).
  * @author Ricardo Süffert
@@ -71,7 +71,7 @@ public class App {
     }
 
     /**
-     * Tells the distance from the first to the last port in the map, visiting, in order, all ports that are accessible. Thist method
+     * Returns the distance from the first to the last port in the map, visiting, in order, all ports that are accessible. This method
      * also creates a string representing all ports that could not be accessed and stores it in a global variable ({@code inaccessiblePorts}).
      * @param mapGraph the map graph
      * @throws InvalidAlgorithmParameterException if {@code mapGraph} does not have any ports, or if there is no reachable port leaving from
@@ -117,7 +117,7 @@ public class App {
     }
 
     /**
-     * Tells the distance from the last port in the map directly to the first port in the map, without making any stops.
+     * Returns the distance from the last port in the map directly to the first port in the map, without making any stops.
      * @param mapGraph the map graph
      * @throws InvalidAlgorithmParameterException if {@code mapGraph} does not have any ports, or if there is no valid path from the last
      *                                            port to the first one
