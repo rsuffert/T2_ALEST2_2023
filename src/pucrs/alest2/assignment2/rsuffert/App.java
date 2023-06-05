@@ -64,7 +64,7 @@ public class App {
                                                                                     nf.format(lastPortVisited), 
                                                                                     nf.format(totalFuel),
                                                                                     NEWLINE,
-                                                                                    inaccessiblePorts == null? "Todos os portos são alcançáveis." : String.format("Porto(s) não alcançável(is): %s.", inaccessiblePorts),
+                                                                                    inaccessiblePorts == null? "Todos os portos são alcançáveis." : String.format("O(s) seguinte(s) porto(s) não pode(m) ser alcançado(s): %s.", inaccessiblePorts),
                                                                                     NEWLINE, NEWLINE,
                                                                                     (double)(finalTime-initialTime)/1000), 
                                       "RESULTADO DA SIMULAÇÃO", JOptionPane.INFORMATION_MESSAGE);
